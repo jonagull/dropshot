@@ -38,10 +38,6 @@ func uploadFileHandler(w http.ResponseWriter, r *http.Request) {
 		return
 	}
 
-	w.Header().Set("Access-Control-Allow-Origin", "*") // Change "*" to specific domain for restricted access
-	w.Header().Set("Access-Control-Allow-Methods", "GET, POST, PUT, DELETE, OPTIONS")
-	w.Header().Set("Access-Control-Allow-Headers", "Content-Type, Authorization")
-
 	// Parse the multipart form with a size limit
 	r.ParseMultipartForm(MaxUploadSize)
 
@@ -78,7 +74,6 @@ func uploadFileHandler(w http.ResponseWriter, r *http.Request) {
 	w.Write([]byte(fmt.Sprintf("File uploaded successfully: %s", handler.Filename)))
 }
 
-// listUploadsHandler handles listing all uploaded images
 func listUploadsHandler(w http.ResponseWriter, r *http.Request) {
 	if r.Method != "GET" {
 		http.Error(w, "Invalid request method", http.StatusMethodNotAllowed)
@@ -112,8 +107,6 @@ func listUploadsHandler(w http.ResponseWriter, r *http.Request) {
 		http.Error(w, "Error encoding JSON", http.StatusInternalServerError)
 		return
 	}
-
-	w.Header().Set("Access-Control-Allow-Origin", "*") // Allow all domains, or specify your frontend URL
 
 	// Write the JSON response
 	w.Write(jsonData)
